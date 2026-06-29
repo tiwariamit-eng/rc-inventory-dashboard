@@ -433,6 +433,27 @@ tbody td:nth-child(2){{text-align:center;color:#475569}}
       <th></th>
     </tr>
   </thead>
+ <thead>
+    <tr class="rh1">
+      <th style="text-align:left;min-width:120px">Zone</th>
+      <th class="tth">Total</th>
+      <th class="ath">Booked<br><span style="font-size:8px;opacity:.8">ATP=0</span></th>
+      <th class="bth">On shelf<br><span style="font-size:8px;opacity:.8">ATP=1</span></th>
+      <th class="bth">On shelf<br><span style="font-size:8px;opacity:.8">%</span></th>
+      <th colspan="4" class="cth" style="text-align:center">Ageing — On Shelf qty</th>
+      <th class="bth" style="white-space:nowrap">&gt;30d %</th>
+      <th class="bth">Status</th>
+    </tr>
+    <tr class="rh2">
+      <th style="text-align:left"></th>
+      <th></th><th></th><th></th><th></th>
+      <th class="ok" style="font-size:9px;border-left:3px solid #2563eb">&#8592; &lt;=7d</th>
+      <th class="w1" style="font-size:9px">8-15d</th>
+      <th class="w2" style="font-size:9px">16-30d</th>
+      <th class="cr" style="font-size:9px">&gt;30d🔴</th>
+      <th></th><th></th>
+    </tr>
+  </thead>
   <tbody id="zoneBody">{zone_rows()}</tbody>
 </table>
 </div>
@@ -468,6 +489,27 @@ tbody td:nth-child(2){{text-align:center;color:#475569}}
       <th></th>
     </tr>
   </thead>
+ <thead>
+    <tr class="rh1">
+      <th colspan="2" style="text-align:left;min-width:120px">Mapped location / Alpha-MP</th>
+      <th class="tth">Total</th>
+      <th class="ath">Booked<br><span style="font-size:8px;opacity:.8">ATP=0</span></th>
+      <th class="bth">On shelf<br><span style="font-size:8px;opacity:.8">ATP=1</span></th>
+      <th class="bth">On shelf<br><span style="font-size:8px;opacity:.8">%</span></th>
+      <th colspan="4" class="cth" style="text-align:center">Ageing — On Shelf qty</th>
+      <th class="bth" style="white-space:nowrap">&gt;30d %</th>
+      <th class="bth">Status</th>
+    </tr>
+    <tr class="rh2">
+      <th colspan="2" style="text-align:left"></th>
+      <th></th><th></th><th></th><th></th>
+      <th class="ok" style="font-size:9px;border-left:3px solid #2563eb">&#8592; &lt;=7d</th>
+      <th class="w1" style="font-size:9px">8-15d</th>
+      <th class="w2" style="font-size:9px">16-30d</th>
+      <th class="cr" style="font-size:9px">&gt;30d🔴</th>
+      <th></th><th></th>
+    </tr>
+  </thead>
   <tbody id="mainBody"></tbody>
 </table>
 <div class="note">
@@ -483,13 +525,14 @@ tbody td:nth-child(2){{text-align:center;color:#475569}}
 <table>
   <thead>
     <tr class="rh1">
-      <th style="text-align:left;min-width:160px">Warehouse (FC)</th>
-      <th style="text-align:left">Zone</th>
+      <th style="text-align:left;min-width:140px">Warehouse (FC)</th>
+      <th style="text-align:left;min-width:60px">Zone</th>
       <th class="tth">Total</th>
       <th class="ath">Booked<br><span style="font-size:8px;opacity:.8">ATP=0</span></th>
       <th class="bth">On shelf<br><span style="font-size:8px;opacity:.8">ATP=1</span></th>
       <th class="bth">On shelf<br><span style="font-size:8px;opacity:.8">%</span></th>
       <th colspan="4" class="cth" style="text-align:center">Ageing — On Shelf qty</th>
+      <th class="bth" style="white-space:nowrap">&gt;30d %</th>
       <th class="bth">Status</th>
     </tr>
     <tr class="rh2">
@@ -499,7 +542,7 @@ tbody td:nth-child(2){{text-align:center;color:#475569}}
       <th class="w1" style="font-size:9px">8-15d</th>
       <th class="w2" style="font-size:9px">16-30d</th>
       <th class="cr" style="font-size:9px">&gt;30d🔴</th>
-      <th></th>
+      <th></th><th></th>
     </tr>
   </thead>
   <tbody id="fcBody">{fc_rows()}</tbody>
@@ -520,6 +563,16 @@ function s(id,v){{var e=document.getElementById(id);if(e)e.innerHTML=v;}}
 
 function render(){{
   var fWH=document.getElementById('fWH').value;
+  var C  ='padding:6px 10px;text-align:center';
+  var CL ='text-align:left;font-weight:500;padding:6px 10px';
+  var CG ='padding:6px 10px;text-align:center;color:#059669;font-weight:500';
+  var CR ='padding:6px 10px;text-align:center;color:#dc2626;font-weight:600';
+  var CW ='padding:6px 10px;text-align:center;color:#d97706;font-weight:500';
+  var A7 ='padding:6px 10px;text-align:center;background:#ecfdf5;color:#065f46;border-left:3px solid #2563eb';
+  var A15='padding:6px 10px;text-align:center;background:#fffbeb;color:#92400e';
+  var A30='padding:6px 10px;text-align:center;background:#fff7ed;color:#9a3412';
+  var A3X='padding:6px 10px;text-align:center;background:#fef2f2;color:#991b1b;font-weight:600';
+  var APX='padding:6px 10px;text-align:center;background:#fef2f2;color:#991b1b;font-size:11px';
   var fZ=document.getElementById('fZone').value;
   var fA=document.getElementById('fAlpha').value;
   var fL=document.getElementById('fLoc').value;
@@ -561,17 +614,17 @@ function render(){{
     var zd=zm[z];var p=zd.qty>0?zd.a1/zd.qty*100:0;var pc=cc(p);
     var v4pct=zd.a1>0?(zd.v4/zd.a1*100).toFixed(1)+'%':'0%';
     return'<tr>'+
-      '<td style="text-align:left;font-weight:500;padding:6px 10px">'+z+'</td>'+
-      '<td style="padding:6px 10px">'+fN(zd.qty)+'</td>'+
-      '<td style="padding:6px 10px" class="rg">'+fN(zd.a0)+'</td>'+
-      '<td style="padding:6px 10px" class="'+pc+'">'+fN(zd.a1)+'</td>'+
-      '<td style="padding:6px 10px" class="'+pc+'">'+pt(zd.a1,zd.qty)+'</td>'+
-      '<td style="padding:6px 10px;background:#ecfdf5;color:#065f46;border-left:3px solid #2563eb">'+fN(zd.v1)+'</td>'+
-      '<td style="padding:6px 10px;background:#fffbeb;color:#92400e">'+fN(zd.v2)+'</td>'+
-      '<td style="padding:6px 10px;background:#fff7ed;color:#9a3412">'+fN(zd.v3)+'</td>'+
-      '<td style="padding:6px 10px;background:#fef2f2;color:#991b1b;font-weight:600">'+fN(zd.v4)+'</td>'+
-      '<td style="padding:6px 10px;background:#fef2f2;color:#991b1b;font-size:11px">'+v4pct+'</td>'+
-      '<td style="padding:6px 10px">'+pill(p,zd.v4)+'</td></tr>';
+      '<td style="'+CL+'">'+z+'</td>'+
+      '<td style="'+C+'">'+fN(zd.qty)+'</td>'+
+      '<td style="'+CG+'">'+fN(zd.a0)+'</td>'+
+      '<td style="'+CR+'">'+fN(zd.a1)+'</td>'+
+      '<td style="'+CR+'">'+pt(zd.a1,zd.qty)+'</td>'+
+      '<td style="'+A7+'">'+fN(zd.v1)+'</td>'+
+      '<td style="'+A15+'">'+fN(zd.v2)+'</td>'+
+      '<td style="'+A30+'">'+fN(zd.v3)+'</td>'+
+      '<td style="'+A3X+'">'+fN(zd.v4)+'</td>'+
+      '<td style="'+APX+'">'+v4pct+'</td>'+
+      '<td style="'+C+'">'+pill(p,zd.v4)+'</td></tr>';
   }}).join('');
   // Grand total
   var gtv1=0,gtv2=0,gtv3=0,gtv4=0;
@@ -583,47 +636,60 @@ function render(){{
   }});
   var gtv4pct=a1>0?(gtv4/a1*100).toFixed(1)+'%':'0%';
   zH+='<tr class="rt">'+
-    '<td style="text-align:left;padding:6px 10px">Pan India Total</td>'+
-    '<td style="padding:6px 10px">'+fN(tQ)+'</td>'+
-    '<td style="padding:6px 10px" class="rg">'+fN(a0)+'</td>'+
-    '<td style="padding:6px 10px" class="rr">'+fN(a1)+'</td>'+
-    '<td style="padding:6px 10px" class="rr">'+pt(a1,tQ)+'</td>'+
-    '<td style="padding:6px 10px;background:#ecfdf5;color:#065f46;border-left:3px solid #2563eb">'+fN(gtv1)+'</td>'+
-    '<td style="padding:6px 10px;background:#fffbeb;color:#92400e">'+fN(gtv2)+'</td>'+
-    '<td style="padding:6px 10px;background:#fff7ed;color:#9a3412">'+fN(gtv3)+'</td>'+
-    '<td style="padding:6px 10px;background:#fef2f2;color:#991b1b;font-weight:700">'+fN(gtv4)+'</td>'+
-    '<td style="padding:6px 10px;background:#fef2f2;color:#991b1b;font-size:11px">'+gtv4pct+'</td>'+
-    '<td style="padding:6px 10px">'+pill(a1/Math.max(tQ,1)*100,gtv4)+'</td></tr>';
+    '<td style="'+CL+'">Pan India Total</td>'+
+    '<td style="'+C+'">'+fN(tQ)+'</td>'+
+    '<td style="'+CG+'">'+fN(a0)+'</td>'+
+    '<td style="'+CR+'">'+fN(a1)+'</td>'+
+    '<td style="'+CR+'">'+pt(a1,tQ)+'</td>'+
+    '<td style="'+A7+'">'+fN(gtv1)+'</td>'+
+    '<td style="'+A15+'">'+fN(gtv2)+'</td>'+
+    '<td style="'+A30+'">'+fN(gtv3)+'</td>'+
+    '<td style="'+A3X+'">'+fN(gtv4)+'</td>'+
+    '<td style="'+APX+'">'+gtv4pct+'</td>'+
+    '<td style="'+C+'">'+pill(a1/Math.max(tQ,1)*100,gtv4)+'</td></tr>';
   s('zoneBody',zH);
 
-  // FC table
+  // FC table - with full ageing breakdown
   var fm={{}};
   d.forEach(function(r){{
-    if(!fm[r.warehouse_id])fm[r.warehouse_id]={{z:r.Zone,qty:0,a0:0,a1:0,ag:0,fsp:0}};
-    fm[r.warehouse_id].qty+=r.qty;fm[r.warehouse_id].a0+=r.atp0;fm[r.warehouse_id].a1+=r.atp1;fm[r.warehouse_id].fsp+=r.fsp;
-    if(r.Ageing_Bucket==='>30 days')fm[r.warehouse_id].ag+=r.atp1;
+    if(!fm[r.warehouse_id])fm[r.warehouse_id]={{z:r.Zone,qty:0,a0:0,a1:0,v1:0,v2:0,v3:0,v4:0}};
+    var f=fm[r.warehouse_id];
+    f.qty+=r.qty;f.a0+=r.atp0;f.a1+=r.atp1;
+    if(r.Ageing_Bucket==='<=7 days')f.v1+=r.atp1;
+    else if(r.Ageing_Bucket==='8-15 days')f.v2+=r.atp1;
+    else if(r.Ageing_Bucket==='16-30 days')f.v3+=r.atp1;
+    else if(r.Ageing_Bucket==='>30 days')f.v4+=r.atp1;
   }});
   var fcH=Object.keys(fm).sort(function(a,b){{return fm[b].qty-fm[a].qty;}}).map(function(wh){{
-    var fd=fm[wh];var p=fd.qty>0?fd.a1/fd.qty*100:0;var ap=fd.qty>0?fd.ag/fd.qty*100:0;
+    var fd=fm[wh];var p=fd.qty>0?fd.a1/fd.qty*100:0;
+    var fdv4pct=fd.a1>0?(fd.v4/fd.a1*100).toFixed(1)+'%':'0%';
     return'<tr>'+
-      '<td style="text-align:left;font-weight:500;padding:6px 10px">'+wh+'</td>'+
+      '<td style="'+CL+'">'+wh+'</td>'+
       '<td style="text-align:left;padding:6px 10px;color:#475569">'+fd.z+'</td>'+
-      '<td style="padding:6px 10px">'+fN(fd.qty)+'</td>'+
-      '<td style="padding:6px 10px" class="rg">'+fN(fd.a0)+'</td>'+
-      '<td style="padding:6px 10px" class="'+cc(p)+'">'+fN(fd.a1)+'</td>'+
-      '<td style="padding:6px 10px" class="'+cc(p)+'">'+p.toFixed(1)+'%</td>'+
-      '<td style="padding:6px 10px;background:#fef2f2;color:#991b1b;font-weight:600">'+fN(fd.ag)+'</td>'+
-      '<td style="padding:6px 10px" class="'+(ap>15?'rr':ap>8?'rw':'rg')+'">'+ap.toFixed(1)+'%</td>'+
-      '<td style="padding:6px 10px;color:#d97706;font-weight:500">'+fF(fd.fsp)+'</td>'+
-      '<td style="padding:6px 10px">'+pill(p,fd.ag)+'</td></tr>';
+      '<td style="'+C+'">'+fN(fd.qty)+'</td>'+
+      '<td style="'+CG+'">'+fN(fd.a0)+'</td>'+
+      '<td style="'+CR+'">'+fN(fd.a1)+'</td>'+
+      '<td style="'+CR+'">'+p.toFixed(1)+'%</td>'+
+      '<td style="'+A7+'">'+fN(fd.v1)+'</td>'+
+      '<td style="'+A15+'">'+fN(fd.v2)+'</td>'+
+      '<td style="'+A30+'">'+fN(fd.v3)+'</td>'+
+      '<td style="'+A3X+'">'+fN(fd.v4)+'</td>'+
+      '<td style="'+APX+'">'+fdv4pct+'</td>'+
+      '<td style="'+C+'">'+pill(p,fd.v4)+'</td></tr>';
   }}).join('');
-  fcH+='<tr class="rt"><td colspan="2" style="text-align:left;padding:6px 10px">Grand Total</td>'+
-    '<td style="padding:6px 10px">'+fN(tQ)+'</td><td style="padding:6px 10px" class="rg">'+fN(a0)+'</td>'+
-    '<td style="padding:6px 10px" class="rr">'+fN(a1)+'</td><td style="padding:6px 10px" class="rr">'+pt(a1,tQ)+'</td>'+
-    '<td style="padding:6px 10px;background:#fef2f2;color:#991b1b;font-weight:700">'+fN(ag)+'</td>'+
-    '<td style="padding:6px 10px" class="rr">'+pt(ag,tQ)+'</td>'+
-    '<td style="padding:6px 10px;color:#d97706;font-weight:600">'+fF(tF)+'</td>'+
-    '<td style="padding:6px 10px">'+pill(a1/Math.max(tQ,1)*100,ag)+'</td></tr>';
+  var fcgtv4pct=a1>0?(gtv4/a1*100).toFixed(1)+'%':'0%';
+  fcH+='<tr class="rt">'+
+    '<td colspan="2" style="'+CL+'">Grand Total</td>'+
+    '<td style="'+C+'">'+fN(tQ)+'</td>'+
+    '<td style="'+CG+'">'+fN(a0)+'</td>'+
+    '<td style="'+CR+'">'+fN(a1)+'</td>'+
+    '<td style="'+CR+'">'+pt(a1,tQ)+'</td>'+
+    '<td style="'+A7+'">'+fN(gtv1)+'</td>'+
+    '<td style="'+A15+'">'+fN(gtv2)+'</td>'+
+    '<td style="'+A30+'">'+fN(gtv3)+'</td>'+
+    '<td style="'+A3X+'">'+fN(gtv4)+'</td>'+
+    '<td style="'+APX+'">'+fcgtv4pct+'</td>'+
+    '<td style="'+C+'">'+pill(a1/Math.max(tQ,1)*100,gtv4)+'</td></tr>';
   s('fcBody',fcH);
 
   // Storage type breakdown
@@ -662,15 +728,18 @@ function render(){{
         '<span style="background:#fce7f3;color:#9d174d;font-size:9px;font-weight:600;padding:1px 6px;border-radius:20px">MP</span>';
       var v4pct=n.a1>0?(v4/n.a1*100).toFixed(1)+'%':'0%';
       mH+='<tr>'+
-        '<td style="padding:6px 4px 6px 8px;text-align:center;border-left:5px solid '+c+'">'+amB+'</td>'+
+        '<td style="padding:5px 4px 5px 8px;text-align:center;border-left:5px solid '+c+'">'+amB+'</td>'+
         '<td style="padding-left:8px;font-weight:400;color:#64748b;font-size:11px">'+sl+'</td>'+
-        '<td>'+fN(n.qty)+'</td><td class="rg">'+fN(n.a0)+'</td>'+
-        '<td class="'+cc(p)+'">'+fN(n.a1)+'</td><td class="'+cc(p)+'">'+p.toFixed(1)+'%</td>'+
-        '<td class="ag" style="border-left:3px solid #2563eb">'+fN(v1)+'</td>'+
-        '<td class="am">'+fN(v2)+'</td><td class="aw">'+fN(v3)+'</td>'+
-        '<td class="ac">'+fN(v4)+'</td>'+
-        '<td style="padding:6px 10px;background:#fef2f2;color:#991b1b;font-size:11px">'+v4pct+'</td>'+
-        '<td>'+pill(p,v4)+'</td></tr>';
+        '<td style="'+C+'">'+fN(n.qty)+'</td>'+
+        '<td style="'+CG+'">'+fN(n.a0)+'</td>'+
+        '<td style="'+CR+'">'+fN(n.a1)+'</td>'+
+        '<td style="'+CR+'">'+p.toFixed(1)+'%</td>'+
+        '<td style="'+A7+'">'+fN(v1)+'</td>'+
+        '<td style="'+A15+'">'+fN(v2)+'</td>'+
+        '<td style="'+A30+'">'+fN(v3)+'</td>'+
+        '<td style="'+A3X+'">'+fN(v4)+'</td>'+
+        '<td style="'+APX+'">'+v4pct+'</td>'+
+        '<td style="'+C+'">'+pill(p,v4)+'</td></tr>';
     }});
     var sp=st.qty>0?st.a1/st.qty*100:0;
     mH+='<tr class="rs">'+
@@ -687,14 +756,17 @@ function render(){{
   var gtv4pct=gt.a1>0?(gt.v4/gt.a1*100).toFixed(1)+'%':'0%';
   mH+='<tr><td colspan="12" style="padding:0;border-top:2px solid #e2e8f0"></td></tr>'+
     '<tr class="rt">'+
-    '<td colspan="2" style="text-align:left">Grand Total</td>'+
-    '<td>'+fN(gt.qty)+'</td><td class="rg">'+fN(gt.a0)+'</td>'+
-    '<td class="'+cc(gp)+'">'+fN(gt.a1)+'</td><td class="'+cc(gp)+'">'+gp.toFixed(1)+'%</td>'+
-    '<td class="ag" style="border-left:3px solid #2563eb">'+fN(gt.v1)+'</td>'+
-    '<td class="am">'+fN(gt.v2)+'</td><td class="aw">'+fN(gt.v3)+'</td>'+
-    '<td class="ac" style="font-size:13px">'+fN(gt.v4)+'</td>'+
-    '<td style="padding:6px 10px;background:#fef2f2;color:#991b1b;font-weight:700;font-size:12px">'+gtv4pct+'</td>'+
-    '<td>'+pill(gp,gt.v4)+'</td></tr>'+
+    '<td colspan="2" style="'+CL+'">Grand Total</td>'+
+    '<td style="'+C+'">'+fN(gt.qty)+'</td>'+
+    '<td style="'+CG+'">'+fN(gt.a0)+'</td>'+
+    '<td style="'+CR+'">'+fN(gt.a1)+'</td>'+
+    '<td style="'+CR+'">'+gp.toFixed(1)+'%</td>'+
+    '<td style="'+A7+'">'+fN(gt.v1)+'</td>'+
+    '<td style="'+A15+'">'+fN(gt.v2)+'</td>'+
+    '<td style="'+A30+'">'+fN(gt.v3)+'</td>'+
+    '<td style="'+A3X+'">'+fN(gt.v4)+'</td>'+
+    '<td style="'+APX+'">'+gtv4pct+'</td>'+
+    '<td style="'+C+'">'+pill(gp,gt.v4)+'</td></tr>'+
     '<tr style="background:#f0f4ff;border-top:2px dashed #bfdbfe">'+
       '<td colspan="2" style="text-align:left;padding:6px 10px;font-size:10px;font-weight:700;color:#1d4ed8;text-transform:uppercase;letter-spacing:.5px">% Contribution by Ageing</td>'+
 
