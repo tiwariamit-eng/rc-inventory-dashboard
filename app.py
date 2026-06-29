@@ -450,7 +450,98 @@ tbody td:nth-child(2){{text-align:center;color:#475569}}
 </table>
 </div>
 
+<div class="divider"></div>
+<div class="sec">📦 Mapped Location Inventory View</div>
+<div class="tw"><div class="tw-scroll">
+<table style="width:100%;border-collapse:collapse;table-layout:fixed">
+  <colgroup>
+    <col style="width:55px">
+    <col style="width:145px">
+    <col style="width:70px">
+    <col style="width:80px">
+    <col style="width:80px">
+    <col style="width:70px">
+    <col style="width:70px">
+    <col style="width:70px">
+    <col style="width:70px">
+    <col style="width:80px">
+    <col style="width:65px">
+    <col style="width:75px">
+  </colgroup>
+  <thead>
+    <tr class="rh1">
+      <th colspan="2" style="text-align:left">Mapped location / Alpha-MP</th>
+      <th class="tth">Total</th>
+      <th class="ath">Booked<br><span style="font-size:8px;opacity:.8">ATP=0</span></th>
+      <th class="bth">On shelf<br><span style="font-size:8px;opacity:.8">ATP=1</span></th>
+      <th class="bth">On shelf<br><span style="font-size:8px;opacity:.8">%</span></th>
+      <th colspan="4" class="cth" style="text-align:center">Ageing — On Shelf qty</th>
+      <th class="bth">&gt;30d %</th>
+      <th class="bth">Status</th>
+    </tr>
+    <tr class="rh2">
+      <th colspan="2" style="text-align:left"></th>
+      <th></th><th></th><th></th><th></th>
+      <th class="ok" style="font-size:9px;border-left:3px solid #2563eb">&#8592; &lt;=7d</th>
+      <th class="w1" style="font-size:9px">8-15d</th>
+      <th class="w2" style="font-size:9px">16-30d</th>
+      <th class="cr" style="font-size:9px">&gt;30d&#128308;</th>
+      <th></th><th></th>
+    </tr>
+  </thead>
+<tbody id="mainBody"></tbody>
+</table>
+<div class="note">
+  <span class="nl"><span class="dot" style="background:#059669"></span> Booked (ATP=0) = packed, will move — good</span>
+  <span class="nl"><span class="dot" style="background:#dc2626"></span> On shelf (ATP=1) = idle, needs action — bad</span>
+  <span class="nl"><span class="dot" style="background:#dc2626"></span> &gt;30 days always critical</span>
+  <span class="nl"><span class="dot" style="background:#f59e0b"></span> Ageing = On Shelf qty only</span>
+</div>
+</div>
 
+<div class="divider"></div>
+<div class="sec">🏭 FC / Warehouse-wise Summary</div>
+<div class="tw"><div class="tw-scroll">
+<table style="width:100%;border-collapse:collapse;table-layout:fixed">
+  <colgroup>
+    <col style="width:140px">
+    <col style="width:60px">
+    <col style="width:70px">
+    <col style="width:80px">
+    <col style="width:80px">
+    <col style="width:70px">
+    <col style="width:70px">
+    <col style="width:70px">
+    <col style="width:70px">
+    <col style="width:80px">
+    <col style="width:65px">
+    <col style="width:75px">
+  </colgroup>
+  <thead>
+    <tr class="rh1">
+      <th style="text-align:left">Warehouse (FC)</th>
+      <th style="text-align:left">Zone</th>
+      <th class="tth">Total</th>
+      <th class="ath">Booked<br><span style="font-size:8px;opacity:.8">ATP=0</span></th>
+      <th class="bth">On shelf<br><span style="font-size:8px;opacity:.8">ATP=1</span></th>
+      <th class="bth">On shelf<br><span style="font-size:8px;opacity:.8">%</span></th>
+      <th colspan="4" class="cth" style="text-align:center">Ageing — On Shelf qty</th>
+      <th class="bth">&gt;30d %</th>
+      <th class="bth">Status</th>
+    </tr>
+    <tr class="rh2">
+      <th colspan="2" style="text-align:left"></th>
+      <th></th><th></th><th></th><th></th>
+      <th class="ok" style="font-size:9px;border-left:3px solid #2563eb">&#8592; &lt;=7d</th>
+      <th class="w1" style="font-size:9px">8-15d</th>
+      <th class="w2" style="font-size:9px">16-30d</th>
+      <th class="cr" style="font-size:9px">&gt;30d&#128308;</th>
+      <th></th><th></th>
+    </tr>
+  </thead>
+<tbody id="fcBody">{fc_rows()}</tbody>
+</table>
+</div>
 
 <script>
 var DATA={summary_json};
@@ -692,89 +783,4 @@ render();
 </script></body></html>"""
 
 html_clean = html.encode('utf-8','replace').decode('utf-8')
-components.html(html_clean, height=2200, scrolling=True)
-
-# ── Native Streamlit dataframe tables with frozen headers ──────────────────────
-AGEING_ORDER = ["<=7 days","8-15 days","16-30 days",">30 days"]
-
-def build_zone_df(df):
-    rows = []
-    for zone, zg in df.groupby("Zone"):
-        qty  = int(zg["quantity"].sum())
-        a0   = int(zg[zg["atp_flag"]==0]["quantity"].sum())
-        a1   = int(zg[zg["atp_flag"]==1]["quantity"].sum())
-        v1   = int(zg[(zg["atp_flag"]==1)&(zg["Ageing_Bucket"]=="<=7 days")]["quantity"].sum())
-        v2   = int(zg[(zg["atp_flag"]==1)&(zg["Ageing_Bucket"]=="8-15 days")]["quantity"].sum())
-        v3   = int(zg[(zg["atp_flag"]==1)&(zg["Ageing_Bucket"]=="16-30 days")]["quantity"].sum())
-        v4   = int(zg[(zg["atp_flag"]==1)&(zg["Ageing_Bucket"]==">30 days")]["quantity"].sum())
-        p    = round(a1/qty*100,1) if qty>0 else 0
-        v4p  = round(v4/a1*100,1) if a1>0 else 0
-        rows.append({"Zone":zone,"Total":qty,"Booked (ATP=0)":a0,"On Shelf (ATP=1)":a1,
-                     "On Shelf %":f"{p}%","<=7d":v1,"8-15d":v2,"16-30d":v3,
-                     ">30d 🔴":v4,">30d %":f"{v4p}%"})
-    rows.sort(key=lambda x: -x["Total"])
-    # Pan India Total
-    tv1 = int(df[(df["atp_flag"]==1)&(df["Ageing_Bucket"]=="<=7 days")]["quantity"].sum())
-    tv2 = int(df[(df["atp_flag"]==1)&(df["Ageing_Bucket"]=="8-15 days")]["quantity"].sum())
-    tv3 = int(df[(df["atp_flag"]==1)&(df["Ageing_Bucket"]=="16-30 days")]["quantity"].sum())
-    tv4 = int(df[(df["atp_flag"]==1)&(df["Ageing_Bucket"]==">30 days")]["quantity"].sum())
-    tq  = int(df["quantity"].sum())
-    ta0 = int(df[df["atp_flag"]==0]["quantity"].sum())
-    ta1 = int(df[df["atp_flag"]==1]["quantity"].sum())
-    tp  = round(ta1/tq*100,1) if tq>0 else 0
-    tv4p= round(tv4/ta1*100,1) if ta1>0 else 0
-    rows.append({"Zone":"📊 Pan India Total","Total":tq,"Booked (ATP=0)":ta0,
-                 "On Shelf (ATP=1)":ta1,"On Shelf %":f"{tp}%",
-                 "<=7d":tv1,"8-15d":tv2,"16-30d":tv3,">30d 🔴":tv4,">30d %":f"{tv4p}%"})
-    return pd.DataFrame(rows)
-
-def build_fc_df(df):
-    rows = []
-    for wh, wg in sorted(df.groupby("warehouse_id"), key=lambda x: -x[1]["quantity"].sum()):
-        zone = str(wg["Zone"].iloc[0])
-        qty  = int(wg["quantity"].sum())
-        a0   = int(wg[wg["atp_flag"]==0]["quantity"].sum())
-        a1   = int(wg[wg["atp_flag"]==1]["quantity"].sum())
-        v1   = int(wg[(wg["atp_flag"]==1)&(wg["Ageing_Bucket"]=="<=7 days")]["quantity"].sum())
-        v2   = int(wg[(wg["atp_flag"]==1)&(wg["Ageing_Bucket"]=="8-15 days")]["quantity"].sum())
-        v3   = int(wg[(wg["atp_flag"]==1)&(wg["Ageing_Bucket"]=="16-30 days")]["quantity"].sum())
-        v4   = int(wg[(wg["atp_flag"]==1)&(wg["Ageing_Bucket"]==">30 days")]["quantity"].sum())
-        p    = round(a1/qty*100,1) if qty>0 else 0
-        v4p  = round(v4/a1*100,1) if a1>0 else 0
-        rows.append({"Warehouse":wh,"Zone":zone,"Total":qty,"Booked (ATP=0)":a0,
-                     "On Shelf (ATP=1)":a1,"On Shelf %":f"{p}%",
-                     "<=7d":v1,"8-15d":v2,"16-30d":v3,">30d 🔴":v4,">30d %":f"{v4p}%"})
-    return pd.DataFrame(rows)
-
-def build_mapped_df(df):
-    rows = []
-    for (loc,am), grp in sorted(
-        df.groupby(["Mapped_Storage_Location","Alpha/MP Flag"]),
-        key=lambda x: -x[1]["quantity"].sum()
-    ):
-        qty = int(grp["quantity"].sum())
-        a0  = int(grp[grp["atp_flag"]==0]["quantity"].sum())
-        a1  = int(grp[grp["atp_flag"]==1]["quantity"].sum())
-        v1  = int(grp[(grp["atp_flag"]==1)&(grp["Ageing_Bucket"]=="<=7 days")]["quantity"].sum())
-        v2  = int(grp[(grp["atp_flag"]==1)&(grp["Ageing_Bucket"]=="8-15 days")]["quantity"].sum())
-        v3  = int(grp[(grp["atp_flag"]==1)&(grp["Ageing_Bucket"]=="16-30 days")]["quantity"].sum())
-        v4  = int(grp[(grp["atp_flag"]==1)&(grp["Ageing_Bucket"]==">30 days")]["quantity"].sum())
-        p   = round(a1/qty*100,1) if qty>0 else 0
-        v4p = round(v4/a1*100,1) if a1>0 else 0
-        rows.append({"Mapped Location":loc,"Alpha/MP":am,"Total":qty,"Booked (ATP=0)":a0,
-                     "On Shelf (ATP=1)":a1,"On Shelf %":f"{p}%",
-                     "<=7d":v1,"8-15d":v2,"16-30d":v3,">30d 🔴":v4,">30d %":f"{v4p}%"})
-    return pd.DataFrame(rows)
-
-# Render using st.dataframe with frozen headers and fixed height
-st.markdown("### 📦 Mapped Location Inventory View")
-df_ml = build_mapped_df(df)
-st.dataframe(df_ml, use_container_width=True, height=400, hide_index=True)
-
-st.markdown("### 🏭 FC / Warehouse-wise Summary")
-df_fc = build_fc_df(df)
-st.dataframe(df_fc, use_container_width=True, height=400, hide_index=True)
-
-st.markdown("### 🌏 Zone Summary")
-df_zone = build_zone_df(df)
-st.dataframe(df_zone, use_container_width=True, height=250, hide_index=True)
+components.html(html_clean, height=5500, scrolling=True)
