@@ -247,8 +247,7 @@ def zone_rows():
           <td style="padding:6px 10px" class="rg">{fmt_n(a0)}</td>
           <td style="padding:6px 10px" class="{pc}">{fmt_n(a1)}</td>
           <td style="padding:6px 10px" class="{pc}">{p:.1f}%</td>
-          <td style="padding:6px 10px;background:#ecfdf5;color:#065f46">{fmt_n(v1)}</td>
-          <td style="padding:6px 10px;background:#fffbeb;color:#92400e;border-left:3px solid #2563eb">{fmt_n(v1)}</td>
+          <td style="padding:6px 10px;background:#ecfdf5;color:#065f46;border-left:3px solid #2563eb">{fmt_n(v1)}</td>
           <td style="padding:6px 10px;background:#fffbeb;color:#92400e">{fmt_n(v2)}</td>
           <td style="padding:6px 10px;background:#fff7ed;color:#9a3412">{fmt_n(v3)}</td>
           <td style="padding:6px 10px;background:#fef2f2;color:#991b1b;font-weight:600">{fmt_n(v4)}</td>
@@ -400,12 +399,13 @@ tbody td:nth-child(2){{text-align:center;color:#475569}}
 <div class="wrap">
 
 <div class="sec">🌏 Pan India Overview — Week {selected_week}</div>
-<div class="kr">
-  <div class="kc b"><div class="kl">Total inventory</div><div class="kv b" id="ovQ">{fmt_n(total_qty)}</div><div class="ksb">{wh_count} warehouses</div></div>
-  <div class="kc g"><div class="kl">✅ Booked (ATP=0)</div><div class="kv g" id="ovA0">{fmt_n(total_atp0)}</div><div class="ksb" id="ovA0s">{atp0_pct} · will move</div></div>
+<div class="kr" style="grid-template-columns:repeat(6,1fr)">
+  <div class="kc b"><div class="kl">Total inventory</div><div class="kv b" id="ovQ">{fmt_n(total_qty)}</div><div class="ksb">{wh_count} warehouses · all zones</div></div>
+  <div class="kc g"><div class="kl">✅ Booked (ATP=0)</div><div class="kv g" id="ovA0">{fmt_n(total_atp0)}</div><div class="ksb" id="ovA0s">{atp0_pct} · packed, will move</div></div>
   <div class="kc r"><div class="kl">⚠️ On shelf (ATP=1)</div><div class="kv r" id="ovA1">{fmt_n(total_atp1)}</div><div class="ksb" id="ovA1s">{atp1_pct} · idle, action needed</div></div>
-  <div class="kc r"><div class="kl">🔴 Aged &gt;30 days</div><div class="kv r" id="ovAg">{fmt_n(total_aged)}</div><div class="ksb">SLA breach · move now</div></div>
-  <div class="kc o"><div class="kl">💰 FSP value</div><div class="kv a" id="ovFS">{fmt_f(total_fsp)}</div><div class="ksb">total inventory value</div></div>
+  <div class="kc r"><div class="kl">🔴 Aged &gt;30d qty</div><div class="kv r" id="ovAg">{fmt_n(total_aged)}</div><div class="ksb" id="ovAgPct">— % of on shelf</div></div>
+  <div class="kc r"><div class="kl">🔴 Aged &gt;30d FSP</div><div class="kv r" id="ovAgF">—</div><div class="ksb">FSP value at risk</div></div>
+  <div class="kc o"><div class="kl">💰 Total FSP value</div><div class="kv a" id="ovFS">{fmt_f(total_fsp)}</div><div class="ksb">overall inventory value</div></div>
 </div>
 
 <div class="tw">
@@ -535,6 +535,10 @@ function render(){{
   s('ovA0',fN(a0));s('ovA1',fN(a1));s('ovAg',fN(ag));s('ovFS',fF(tF));
   s('ovA0s',pt(a0,tQ)+' · packed, will move');
   s('ovA1s',pt(a1,tQ)+' · idle, needs action');
+  var agPct=a1>0?(ag/a1*100).toFixed(1)+'% of on shelf':'0% of on shelf';
+  s('ovAgPct',agPct);
+  var agFsp=d.filter(function(r){{return r.Ageing_Bucket==='>30 days';}}).reduce(function(s,r){{return s+r.fsp;}},0);
+  s('ovAgF',fF(agFsp));
   s('wiTot',fN(tQ));
   s('wiLine',(fWH||'All warehouses')+' · {selected_week}'+(fZ?' · '+fZ:'')+(fA?' · '+fA:'')+(fL?' · '+fL:''));
 
