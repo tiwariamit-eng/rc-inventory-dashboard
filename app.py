@@ -413,73 +413,24 @@ tbody td:nth-child(2){{text-align:center;color:#475569}}
   <thead>
     <tr class="rh1">
       <th style="text-align:left">Zone</th>
-      <th class="tth">Total qty</th>
-      <th class="ath">Booked (ATP=0)</th>
-      <th class="bth">On shelf (ATP=1)</th>
-      <th class="bth">On shelf %</th>
-      <th class="bth">Aged &gt;30d 🔴</th>
-      <th class="cth">FSP value</th>
+      <th class="tth">Total</th>
+      <th class="ath">Booked<br><span style="font-size:8px;opacity:.8">ATP=0</span></th>
+      <th class="bth">On shelf<br><span style="font-size:8px;opacity:.8">ATP=1</span></th>
+      <th class="bth">On shelf<br><span style="font-size:8px;opacity:.8">%</span></th>
+      <th colspan="4" class="cth" style="text-align:center">Ageing — On Shelf qty</th>
+      <th class="bth">Status</th>
+    </tr>
+    <tr class="rh2">
+      <th style="text-align:left"></th>
+      <th></th><th></th><th></th><th></th>
+      <th class="ok" style="font-size:9px;border-left:3px solid #2563eb">&#8592; &lt;=7d</th>
+      <th class="w1" style="font-size:9px">8-15d</th>
+      <th class="w2" style="font-size:9px">16-30d</th>
+      <th class="cr" style="font-size:9px">&gt;30d🔴</th>
+      <th></th>
     </tr>
   </thead>
   <tbody id="zoneBody">{zone_rows()}</tbody>
-</table>
-</div>
-
-<div class="divider"></div>
-<div class="sec">🏭 FC / Warehouse-wise Summary</div>
-<div class="tw">
-<table>
-  <thead>
-    <tr class="rh1">
-      <th style="text-align:left;min-width:160px">Warehouse (FC)</th>
-      <th style="text-align:left">Zone</th>
-      <th class="tth">Total</th>
-      <th class="ath">Booked<br><span style="font-size:8px;opacity:.8">ATP=0</span></th>
-      <th class="bth">On shelf<br><span style="font-size:8px;opacity:.8">ATP=1</span></th>
-      <th class="bth">On shelf<br><span style="font-size:8px;opacity:.8">%</span></th>
-      <th colspan="4" class="cth" style="text-align:center">Ageing — On Shelf qty</th>
-      <th class="bth">Status</th>
-    </tr>
-    <tr class="rh2">
-      <th colspan="2" style="text-align:left"></th>
-      <th></th><th></th><th></th><th></th>
-      <th class="ok" style="font-size:9px;border-left:3px solid #2563eb">&#8592; &lt;=7d</th>
-      <th class="w1" style="font-size:9px">8-15d</th>
-      <th class="w2" style="font-size:9px">16-30d</th>
-      <th class="cr" style="font-size:9px">&gt;30d🔴</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody id="fcBody">{fc_rows()}</tbody>
-</table>
-</div>
-
-<div class="divider"></div>
-<div class="sec">🏭 FC / Warehouse-wise Summary</div>
-<div class="tw">
-<table>
-  <thead>
-    <tr class="rh1">
-      <th style="text-align:left;min-width:160px">Warehouse (FC)</th>
-      <th style="text-align:left">Zone</th>
-      <th class="tth">Total</th>
-      <th class="ath">Booked<br><span style="font-size:8px;opacity:.8">ATP=0</span></th>
-      <th class="bth">On shelf<br><span style="font-size:8px;opacity:.8">ATP=1</span></th>
-      <th class="bth">On shelf<br><span style="font-size:8px;opacity:.8">%</span></th>
-      <th colspan="4" class="cth" style="text-align:center">Ageing — On Shelf qty</th>
-      <th class="bth">Status</th>
-    </tr>
-    <tr class="rh2">
-      <th colspan="2" style="text-align:left"></th>
-      <th></th><th></th><th></th><th></th>
-      <th class="ok" style="font-size:9px;border-left:3px solid #2563eb">&#8592; &lt;=7d</th>
-      <th class="w1" style="font-size:9px">8-15d</th>
-      <th class="w2" style="font-size:9px">16-30d</th>
-      <th class="cr" style="font-size:9px">&gt;30d🔴</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody id="fcBody">{fc_rows()}</tbody>
 </table>
 </div>
 
@@ -522,6 +473,35 @@ tbody td:nth-child(2){{text-align:center;color:#475569}}
   <span class="nl"><span class="dot" style="background:#f59e0b"></span> Ageing = On Shelf qty only</span>
 </div>
 </div>
+<div class="divider"></div>
+<div class="sec">🏭 FC / Warehouse-wise Summary</div>
+<div class="tw">
+<table>
+  <thead>
+    <tr class="rh1">
+      <th style="text-align:left;min-width:160px">Warehouse (FC)</th>
+      <th style="text-align:left">Zone</th>
+      <th class="tth">Total</th>
+      <th class="ath">Booked<br><span style="font-size:8px;opacity:.8">ATP=0</span></th>
+      <th class="bth">On shelf<br><span style="font-size:8px;opacity:.8">ATP=1</span></th>
+      <th class="bth">On shelf<br><span style="font-size:8px;opacity:.8">%</span></th>
+      <th colspan="4" class="cth" style="text-align:center">Ageing — On Shelf qty</th>
+      <th class="bth">Status</th>
+    </tr>
+    <tr class="rh2">
+      <th colspan="2" style="text-align:left"></th>
+      <th></th><th></th><th></th><th></th>
+      <th class="ok" style="font-size:9px;border-left:3px solid #2563eb">&#8592; &lt;=7d</th>
+      <th class="w1" style="font-size:9px">8-15d</th>
+      <th class="w2" style="font-size:9px">16-30d</th>
+      <th class="cr" style="font-size:9px">&gt;30d🔴</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="fcBody">{fc_rows()}</tbody>
+</table>
+</div>
+
 </div>
 
 <script>
