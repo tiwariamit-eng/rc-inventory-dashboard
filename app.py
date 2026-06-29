@@ -588,27 +588,19 @@ function render(){{
       var n=tree[sl][am];
       var v1=n.v['<=7 days']||0,v2=n.v['8-15 days']||0,v3=n.v['16-30 days']||0,v4=n.v['>30 days']||0;
       var p=n.qty>0?n.a1/n.qty*100:0;
-      st.qty+=n.qty;st.a0+=n.a0;st.a1+=n.a1;st.v1+=v1;st.v2+=v2;st.v3+=v3;st.v4+=v4;st.fsp=(st.fsp||0)+n.fsp;
+      st.qty+=n.qty;st.a0+=n.a0;st.a1+=n.a1;st.v1+=v1;st.v2+=v2;st.v3+=v3;st.v4+=v4;
       gt.qty+=n.qty;gt.a0+=n.a0;gt.a1+=n.a1;gt.v1+=v1;gt.v2+=v2;gt.v3+=v3;gt.v4+=v4;
       var amB=am==='alpha'?
         '<span style="background:#dbeafe;color:#1d4ed8;font-size:9px;font-weight:600;padding:1px 6px;border-radius:20px">Alpha</span>':
         '<span style="background:#fce7f3;color:#9d174d;font-size:9px;font-weight:600;padding:1px 6px;border-radius:20px">MP</span>';
-      var aged30pct=n.qty>0?(v4/n.qty*100).toFixed(1)+'%':'0%';
       mH+='<tr>'+
-        '<td style="padding-left:8px;font-weight:500;color:#1e293b;border-left:5px solid '+c+'">'+sl+'</td>'+
-        '<td style="text-align:center">'+amB+'</td>'+
-        '<td>'+fN(n.qty)+'</td>'+
-        '<td class="rg">'+fN(n.a0)+'</td>'+
-        '<td class="'+cc(p)+'">'+fN(n.a1)+'</td>'+
-        '<td class="'+cc(p)+'">'+p.toFixed(1)+'%</td>'+
-        '<td style="background:#fef2f2;color:#991b1b;font-weight:600;text-align:center;padding:7px 10px">'+fN(v4)+'</td>'+
-        '<td class="'+((v4/Math.max(n.qty,1)*100)>=15?'rr':(v4/Math.max(n.qty,1)*100)>=8?'rw':'rg')+'">'+aged30pct+'</td>'+
+        '<td style="padding:6px 4px 6px 8px;text-align:center;border-left:5px solid '+c+'">'+amB+'</td>'+
+        '<td style="padding-left:8px;font-weight:400;color:#64748b;font-size:11px">'+sl+'</td>'+
+        '<td>'+fN(n.qty)+'</td><td class="rg">'+fN(n.a0)+'</td>'+
+        '<td class="'+cc(p)+'">'+fN(n.a1)+'</td><td class="'+cc(p)+'">'+p.toFixed(1)+'%</td>'+
         '<td class="ag" style="border-left:3px solid #2563eb">'+fN(v1)+'</td>'+
-        '<td class="am">'+fN(v2)+'</td>'+
-        '<td class="aw">'+fN(v3)+'</td>'+
-        '<td class="ac">'+fN(v4)+'</td>'+
-        '<td style="color:#d97706;font-weight:500;text-align:center;padding:7px 10px">'+fF(n.fsp||0)+'</td>'+
-        '<td>'+pill(p,v4)+'</td></tr>';
+        '<td class="am">'+fN(v2)+'</td><td class="aw">'+fN(v3)+'</td>'+
+        '<td class="ac">'+fN(v4)+'</td><td>'+pill(p,v4)+'</td></tr>';
     }});
     var sp=st.qty>0?st.a1/st.qty*100:0;
     mH+='<tr class="rs">'+
@@ -622,33 +614,25 @@ function render(){{
   var gp=gt.qty>0?gt.a1/gt.qty*100:0;
   var tot1=gt.a1||1;
   var c1=(gt.v1/tot1*100).toFixed(1),c2=(gt.v2/tot1*100).toFixed(1),c3=(gt.v3/tot1*100).toFixed(1),c4=(gt.v4/tot1*100).toFixed(1);
-  var gt4pct=gt.qty>0?(gt.v4/gt.qty*100).toFixed(1)+'%':'0%';
-  var gtFsp=d.reduce(function(s,r){{return s+r.fsp;}},0);
-  mH+='<tr><td colspan="14" style="padding:0;border-top:2px solid #e2e8f0"></td></tr>'+
+  mH+='<tr><td colspan="11" style="padding:0;border-top:2px solid #e2e8f0"></td></tr>'+
     '<tr class="rt">'+
     '<td colspan="2" style="text-align:left">Grand Total</td>'+
-    '<td>'+fN(gt.qty)+'</td>'+
-    '<td class="rg">'+fN(gt.a0)+'</td>'+
-    '<td class="'+cc(gp)+'">'+fN(gt.a1)+'</td>'+
-    '<td class="'+cc(gp)+'">'+gp.toFixed(1)+'%</td>'+
-    '<td style="background:#fef2f2;color:#991b1b;font-weight:700;text-align:center;padding:7px 10px">'+fN(gt.v4)+'</td>'+
-    '<td class="rr">'+gt4pct+'</td>'+
+    '<td>'+fN(gt.qty)+'</td><td class="rg">'+fN(gt.a0)+'</td>'+
+    '<td class="'+cc(gp)+'">'+fN(gt.a1)+'</td><td class="'+cc(gp)+'">'+gp.toFixed(1)+'%</td>'+
     '<td class="ag" style="border-left:3px solid #2563eb">'+fN(gt.v1)+'</td>'+
-    '<td class="am">'+fN(gt.v2)+'</td>'+
-    '<td class="aw">'+fN(gt.v3)+'</td>'+
-    '<td class="ac" style="font-size:13px">'+fN(gt.v4)+'</td>'+
-    '<td style="color:#d97706;font-weight:600;text-align:center;padding:7px 10px">'+fF(gtFsp)+'</td>'+
-    '<td>'+pill(gp,gt.v4)+'</td></tr>'+
+    '<td class="am">'+fN(gt.v2)+'</td><td class="aw">'+fN(gt.v3)+'</td>'+
+    '<td class="ac" style="font-size:13px">'+fN(gt.v4)+'</td><td>'+pill(gp,gt.v4)+'</td></tr>'+
     '<tr style="background:#f0f4ff;border-top:2px dashed #bfdbfe">'+
-      '<td colspan="8" style="text-align:left;padding:6px 10px;font-size:10px;font-weight:700;color:#1d4ed8;text-transform:uppercase;letter-spacing:.5px">% Contribution by Ageing</td>'+
+      '<td colspan="2" style="text-align:left;padding:6px 10px;font-size:10px;font-weight:700;color:#1d4ed8;text-transform:uppercase;letter-spacing:.5px">% Contribution by Ageing</td>'+
 
+      '<td colspan="4" style="padding:6px 10px;font-size:10px;color:#64748b;text-align:center">— of total on shelf (ATP=1) qty —</td>'+
       '<td style="padding:6px 10px;text-align:center;background:#ecfdf5;color:#065f46;font-weight:700;font-size:12px;border-left:3px solid #2563eb">'+c1+'%</td>'+
       '<td style="padding:6px 10px;text-align:center;background:#fffbeb;color:#92400e;font-weight:700;font-size:12px">'+c2+'%</td>'+
       '<td style="padding:6px 10px;text-align:center;background:#fff7ed;color:#9a3412;font-weight:700;font-size:12px">'+c3+'%</td>'+
       '<td style="padding:6px 10px;text-align:center;background:#fef2f2;color:#991b1b;font-weight:700;font-size:14px">'+c4+'%</td>'+
       '<td style="padding:6px 10px;text-align:center;font-size:10px;color:#64748b">of on shelf</td></tr>'+
     '<tr style="background:#f0f4ff">'+
-      '<td colspan="8" style="padding:4px 10px;font-size:10px;color:#64748b;border-top:none"></td>'+
+      '<td colspan="6" style="padding:4px 10px;font-size:10px;color:#64748b;border-top:none"></td>'+
       '<td colspan="4" style="padding:3px 0">'+
         '<div style="display:flex;height:8px;border-radius:4px;overflow:hidden;margin:0 8px">'+
           '<div style="width:'+c1+'%;background:#059669;transition:width .4s"></div>'+
