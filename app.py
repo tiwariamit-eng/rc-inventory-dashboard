@@ -785,4 +785,4 @@ render();
 </script></body></html>"""
 
 html_clean = html.encode('utf-8','replace').decode('utf-8')
-components.html(html_clean, height=5500, scrolling=True)
+components.html(html_clean, height=6500, scrolling=False)
