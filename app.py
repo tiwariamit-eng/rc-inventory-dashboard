@@ -251,6 +251,7 @@ def zone_rows():
           <td style="padding:6px 10px;background:#fffbeb;color:#92400e">{fmt_n(v2)}</td>
           <td style="padding:6px 10px;background:#fff7ed;color:#9a3412">{fmt_n(v3)}</td>
           <td style="padding:6px 10px;background:#fef2f2;color:#991b1b;font-weight:600">{fmt_n(v4)}</td>
+          <td style="padding:6px 10px;background:#fef2f2;color:#991b1b;font-size:11px">{f"{v4/a1*100:.1f}%" if a1>0 else "0%"}</td>
           <td style="padding:6px 10px">{st_pill}</td>
         </tr>"""
     # Pan India total
@@ -303,6 +304,7 @@ def fc_rows():
           <td style="padding:6px 10px;background:#fffbeb;color:#92400e">{fmt_n(v2)}</td>
           <td style="padding:6px 10px;background:#fff7ed;color:#9a3412">{fmt_n(v3)}</td>
           <td style="padding:6px 10px;background:#fef2f2;color:#991b1b;font-weight:600">{fmt_n(v4)}</td>
+          <td style="padding:6px 10px;background:#fef2f2;color:#991b1b;font-size:11px">{f"{v4/a1*100:.1f}%" if a1>0 else "0%"}</td>
           <td style="padding:6px 10px">{st_pill}</td>
         </tr>"""
     return html
@@ -427,6 +429,7 @@ tbody td:nth-child(2){{text-align:center;color:#475569}}
       <th class="w1" style="font-size:9px">8-15d</th>
       <th class="w2" style="font-size:9px">16-30d</th>
       <th class="cr" style="font-size:9px">&gt;30d🔴</th>
+      <th class="cr" style="font-size:9px">&gt;30d %</th>
       <th></th>
     </tr>
   </thead>
@@ -542,28 +545,54 @@ function render(){{
   s('wiTot',fN(tQ));
   s('wiLine',(fWH||'All warehouses')+' · {selected_week}'+(fZ?' · '+fZ:'')+(fA?' · '+fA:'')+(fL?' · '+fL:''));
 
-  // Zone table
+  // Zone table - with ageing breakdown
   var zm={{}};
   d.forEach(function(r){{
-    if(!zm[r.Zone])zm[r.Zone]={{qty:0,a0:0,a1:0,ag:0,fsp:0}};
-    zm[r.Zone].qty+=r.qty;zm[r.Zone].a0+=r.atp0;zm[r.Zone].a1+=r.atp1;zm[r.Zone].fsp+=r.fsp;
-    if(r.Ageing_Bucket==='>30 days')zm[r.Zone].ag+=r.atp1;
+    if(!zm[r.Zone])zm[r.Zone]={{qty:0,a0:0,a1:0,v1:0,v2:0,v3:0,v4:0}};
+    var z=zm[r.Zone];
+    z.qty+=r.qty;z.a0+=r.atp0;z.a1+=r.atp1;
+    if(r.Ageing_Bucket==='<=7 days')z.v1+=r.atp1;
+    else if(r.Ageing_Bucket==='8-15 days')z.v2+=r.atp1;
+    else if(r.Ageing_Bucket==='16-30 days')z.v3+=r.atp1;
+    else if(r.Ageing_Bucket==='>30 days')z.v4+=r.atp1;
   }});
   var zH=Object.keys(zm).sort(function(a,b){{return zm[b].qty-zm[a].qty;}}).map(function(z){{
     var zd=zm[z];var p=zd.qty>0?zd.a1/zd.qty*100:0;var pc=cc(p);
-    return'<tr><td style="text-align:left;font-weight:500;padding:6px 10px">'+z+'</td>'+
+    var v4pct=zd.a1>0?(zd.v4/zd.a1*100).toFixed(1)+'%':'0%';
+    return'<tr>'+
+      '<td style="text-align:left;font-weight:500;padding:6px 10px">'+z+'</td>'+
       '<td style="padding:6px 10px">'+fN(zd.qty)+'</td>'+
       '<td style="padding:6px 10px" class="rg">'+fN(zd.a0)+'</td>'+
       '<td style="padding:6px 10px" class="'+pc+'">'+fN(zd.a1)+'</td>'+
       '<td style="padding:6px 10px" class="'+pc+'">'+pt(zd.a1,zd.qty)+'</td>'+
-      '<td style="padding:6px 10px;background:#fef2f2;color:#991b1b;font-weight:600">'+fN(zd.ag)+'</td>'+
-      '<td style="padding:6px 10px;color:#d97706;font-weight:500">'+fF(zd.fsp)+'</td></tr>';
+      '<td style="padding:6px 10px;background:#ecfdf5;color:#065f46;border-left:3px solid #2563eb">'+fN(zd.v1)+'</td>'+
+      '<td style="padding:6px 10px;background:#fffbeb;color:#92400e">'+fN(zd.v2)+'</td>'+
+      '<td style="padding:6px 10px;background:#fff7ed;color:#9a3412">'+fN(zd.v3)+'</td>'+
+      '<td style="padding:6px 10px;background:#fef2f2;color:#991b1b;font-weight:600">'+fN(zd.v4)+'</td>'+
+      '<td style="padding:6px 10px;background:#fef2f2;color:#991b1b;font-size:11px">'+v4pct+'</td>'+
+      '<td style="padding:6px 10px">'+pill(p,zd.v4)+'</td></tr>';
   }}).join('');
-  zH+='<tr class="rt"><td style="text-align:left;padding:6px 10px">Pan India Total</td>'+
-    '<td style="padding:6px 10px">'+fN(tQ)+'</td><td style="padding:6px 10px" class="rg">'+fN(a0)+'</td>'+
-    '<td style="padding:6px 10px" class="rr">'+fN(a1)+'</td><td style="padding:6px 10px" class="rr">'+pt(a1,tQ)+'</td>'+
-    '<td style="padding:6px 10px;background:#fef2f2;color:#991b1b;font-weight:700">'+fN(ag)+'</td>'+
-    '<td style="padding:6px 10px;color:#d97706;font-weight:600">'+fF(tF)+'</td></tr>';
+  // Grand total
+  var gtv1=0,gtv2=0,gtv3=0,gtv4=0;
+  d.forEach(function(r){{
+    if(r.Ageing_Bucket==='<=7 days')gtv1+=r.atp1;
+    else if(r.Ageing_Bucket==='8-15 days')gtv2+=r.atp1;
+    else if(r.Ageing_Bucket==='16-30 days')gtv3+=r.atp1;
+    else if(r.Ageing_Bucket==='>30 days')gtv4+=r.atp1;
+  }});
+  var gtv4pct=a1>0?(gtv4/a1*100).toFixed(1)+'%':'0%';
+  zH+='<tr class="rt">'+
+    '<td style="text-align:left;padding:6px 10px">Pan India Total</td>'+
+    '<td style="padding:6px 10px">'+fN(tQ)+'</td>'+
+    '<td style="padding:6px 10px" class="rg">'+fN(a0)+'</td>'+
+    '<td style="padding:6px 10px" class="rr">'+fN(a1)+'</td>'+
+    '<td style="padding:6px 10px" class="rr">'+pt(a1,tQ)+'</td>'+
+    '<td style="padding:6px 10px;background:#ecfdf5;color:#065f46;border-left:3px solid #2563eb">'+fN(gtv1)+'</td>'+
+    '<td style="padding:6px 10px;background:#fffbeb;color:#92400e">'+fN(gtv2)+'</td>'+
+    '<td style="padding:6px 10px;background:#fff7ed;color:#9a3412">'+fN(gtv3)+'</td>'+
+    '<td style="padding:6px 10px;background:#fef2f2;color:#991b1b;font-weight:700">'+fN(gtv4)+'</td>'+
+    '<td style="padding:6px 10px;background:#fef2f2;color:#991b1b;font-size:11px">'+gtv4pct+'</td>'+
+    '<td style="padding:6px 10px">'+pill(a1/Math.max(tQ,1)*100,gtv4)+'</td></tr>';
   s('zoneBody',zH);
 
   // FC table
