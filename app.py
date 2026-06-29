@@ -14,97 +14,69 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-import httpx
-from authlib.integrations.requests_client import OAuth2Session
-
 FOLDER_ID = "1n2MfzEAcQegvJ8djT4_ZKNRbKEMG7kq6"  # RC inventory folder
-ALLOWED_DOMAIN = "flipkart.com"
 
-# ── Google OAuth Login ────────────────────────────────────────────────────────
-def login_with_google():
-    client_id     = st.secrets["oauth"]["client_id"]
-    client_secret = st.secrets["oauth"]["client_secret"]
-    redirect_uri  = st.secrets["oauth"].get("redirect_uri", "https://localhost:8501")
-
-    oauth = OAuth2Session(
-        client_id=client_id,
-        client_secret=client_secret,
-        scope="openid email profile",
-        redirect_uri=redirect_uri
-    )
-    uri, state = oauth.create_authorization_url(
-        "https://accounts.google.com/o/oauth2/v2/auth",
-        access_type="online"
-    )
-    st.session_state["oauth_state"] = state
-    return uri
-
-def get_user_email(code, state):
-    client_id     = st.secrets["oauth"]["client_id"]
-    client_secret = st.secrets["oauth"]["client_secret"]
-    redirect_uri  = st.secrets["oauth"].get("redirect_uri", "https://localhost:8501")
-
-    oauth = OAuth2Session(
-        client_id=client_id,
-        client_secret=client_secret,
-        state=state,
-        redirect_uri=redirect_uri
-    )
-    token = oauth.fetch_token(
-        "https://oauth2.googleapis.com/token",
-        code=code,
-        client_secret=client_secret
-    )
-    resp = oauth.get("https://www.googleapis.com/oauth2/v3/userinfo")
-    return resp.json()
-
-# ── Check login state ─────────────────────────────────────────────────────────
-query_params = st.query_params
-code  = query_params.get("code")
-state = query_params.get("state")
-
-if "user_email" not in st.session_state:
-    if code and state:
-        try:
-            user_info = get_user_email(code, st.session_state.get("oauth_state", state))
-            email = user_info.get("email", "")
-            if email.endswith(f"@{ALLOWED_DOMAIN}"):
-                st.session_state["user_email"] = email
-                st.session_state["user_name"]  = user_info.get("name", email)
-                st.query_params.clear()
-                st.rerun()
-            else:
-                st.error(f"❌ Access denied. Only @{ALLOWED_DOMAIN} accounts are allowed.")
-                st.stop()
-        except Exception as e:
-            st.error(f"Login failed: {e}")
-            st.stop()
-    else:
-        # Show login page
-        login_uri = login_with_google()
+# ── Flipkart Email Login (no password) ───────────────────────────────────────
+def check_access():
+    if "authenticated" not in st.session_state:
         st.markdown("""
-        <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh">
-          <div style="background:#fff;border-radius:16px;padding:40px 48px;border:1px solid #e2e8f0;text-align:center;max-width:400px">
-            <div style="font-size:48px;margin-bottom:16px">📦</div>
-            <h2 style="color:#0f2557;font-size:22px;font-weight:700;margin-bottom:8px">RC Inventory Dashboard</h2>
-            <p style="color:#64748b;font-size:13px;margin-bottom:24px">Flipkart Internal Tool · Sign in with your Flipkart account to continue</p>
-            <a href="{login_uri}" style="display:inline-block;background:#2563eb;color:#fff;font-size:14px;font-weight:600;padding:12px 28px;border-radius:8px;text-decoration:none">
-              🔐 Sign in with Google
-            </a>
-            <p style="color:#94a3b8;font-size:11px;margin-top:16px">Only @flipkart.com accounts are allowed</p>
+        <style>
+        body{background:#f4f6f9}
+        .block-container{padding-top:60px!important}
+        </style>
+        <div style="display:flex;flex-direction:column;align-items:center;padding:20px">
+          <div style="background:#fff;border-radius:16px;padding:36px 44px;border:1px solid #e2e8f0;
+                      text-align:center;max-width:420px;width:100%">
+            <div style="font-size:44px;margin-bottom:10px">📦</div>
+            <div style="color:#0f2557;font-size:20px;font-weight:700;margin-bottom:4px">
+              RC Inventory Dashboard
+            </div>
+            <div style="color:#64748b;font-size:12px;margin-bottom:20px">
+              Flipkart Internal Tool · RC Operations Analytics
+            </div>
+            <div style="color:#94a3b8;font-size:11px;border-top:1px solid #f1f5f9;
+                        padding-top:14px;margin-top:4px">
+              Enter your @flipkart.com email to continue
+            </div>
           </div>
         </div>
-        """.format(login_uri=login_uri), unsafe_allow_html=True)
+        """, unsafe_allow_html=True)
+
+        col1, col2, col3 = st.columns([1, 2, 1])
+        with col2:
+            email = st.text_input(
+                "Flipkart Email",
+                placeholder="yourname@flipkart.com",
+                label_visibility="collapsed"
+            ).strip().lower()
+
+            if st.button("Continue →", use_container_width=True, type="primary"):
+                if email.endswith("@flipkart.com"):
+                    st.session_state["authenticated"] = True
+                    st.session_state["user_email"]    = email
+                    st.rerun()
+                elif "@" in email and not email.endswith("@flipkart.com"):
+                    st.error("❌ Only @flipkart.com email accounts are allowed.")
+                else:
+                    st.error("❌ Please enter a valid @flipkart.com email.")
+
+            st.markdown(
+                "<p style='text-align:center;color:#94a3b8;font-size:11px;margin-top:6px'>"
+                "Only @flipkart.com accounts are allowed</p>",
+                unsafe_allow_html=True
+            )
         st.stop()
 
-# Show logged in user in sidebar
-with st.sidebar:
-    st.markdown(f"👤 **{st.session_state.get('user_name','')}**")
-    st.markdown(f"📧 {st.session_state.get('user_email','')}")
-    if st.button("Logout"):
-        del st.session_state["user_email"]
-        del st.session_state["user_name"]
-        st.rerun()
+    # Sidebar
+    with st.sidebar:
+        st.markdown(f"👤 **{st.session_state.get('user_email','')}**")
+        st.markdown("✅ Flipkart Employee")
+        if st.button("Logout"):
+            del st.session_state["authenticated"]
+            del st.session_state["user_email"]
+            st.rerun()
+
+check_access()
 
 AGEING_ORDER = ["<=7 days", "8-15 days", "16-30 days", ">30 days"]
 
