@@ -450,100 +450,7 @@ tbody td:nth-child(2){{text-align:center;color:#475569}}
 </table>
 </div>
 
-<div class="divider"></div>
-<div class="sec">📦 Mapped Location Inventory View</div>
-<div class="tw"><div class="tw-scroll">
-<table style="width:100%;border-collapse:collapse;table-layout:fixed">
-  <colgroup>
-    <col style="width:55px">
-    <col style="width:145px">
-    <col style="width:70px">
-    <col style="width:80px">
-    <col style="width:80px">
-    <col style="width:70px">
-    <col style="width:70px">
-    <col style="width:70px">
-    <col style="width:70px">
-    <col style="width:80px">
-    <col style="width:65px">
-    <col style="width:75px">
-  </colgroup>
-  <thead>
-    <tr class="rh1">
-      <th colspan="2" style="text-align:left">Mapped location / Alpha-MP</th>
-      <th class="tth">Total</th>
-      <th class="ath">Booked<br><span style="font-size:8px;opacity:.8">ATP=0</span></th>
-      <th class="bth">On shelf<br><span style="font-size:8px;opacity:.8">ATP=1</span></th>
-      <th class="bth">On shelf<br><span style="font-size:8px;opacity:.8">%</span></th>
-      <th colspan="4" class="cth" style="text-align:center">Ageing — On Shelf qty</th>
-      <th class="bth">&gt;30d %</th>
-      <th class="bth">Status</th>
-    </tr>
-    <tr class="rh2">
-      <th colspan="2" style="text-align:left"></th>
-      <th></th><th></th><th></th><th></th>
-      <th class="ok" style="font-size:9px;border-left:3px solid #2563eb">&#8592; &lt;=7d</th>
-      <th class="w1" style="font-size:9px">8-15d</th>
-      <th class="w2" style="font-size:9px">16-30d</th>
-      <th class="cr" style="font-size:9px">&gt;30d&#128308;</th>
-      <th></th><th></th>
-    </tr>
-  </thead>
-<tbody id="mainBody"></tbody>
-</table>
-</div>
-<div class="note">
-  <span class="nl"><span class="dot" style="background:#059669"></span> Booked (ATP=0) = packed, will move — good</span>
-  <span class="nl"><span class="dot" style="background:#dc2626"></span> On shelf (ATP=1) = idle, needs action — bad</span>
-  <span class="nl"><span class="dot" style="background:#dc2626"></span> &gt;30 days always critical</span>
-  <span class="nl"><span class="dot" style="background:#f59e0b"></span> Ageing = On Shelf qty only</span>
-</div>
-</div>
-<div class="divider"></div>
-<div class="sec">🏭 FC / Warehouse-wise Summary</div>
-<div class="tw"><div class="tw-scroll">
-<table style="width:100%;border-collapse:collapse;table-layout:fixed">
-  <colgroup>
-    <col style="width:140px">
-    <col style="width:60px">
-    <col style="width:70px">
-    <col style="width:80px">
-    <col style="width:80px">
-    <col style="width:70px">
-    <col style="width:70px">
-    <col style="width:70px">
-    <col style="width:70px">
-    <col style="width:80px">
-    <col style="width:65px">
-    <col style="width:75px">
-  </colgroup>
-  <thead>
-    <tr class="rh1">
-      <th style="text-align:left">Warehouse (FC)</th>
-      <th style="text-align:left">Zone</th>
-      <th class="tth">Total</th>
-      <th class="ath">Booked<br><span style="font-size:8px;opacity:.8">ATP=0</span></th>
-      <th class="bth">On shelf<br><span style="font-size:8px;opacity:.8">ATP=1</span></th>
-      <th class="bth">On shelf<br><span style="font-size:8px;opacity:.8">%</span></th>
-      <th colspan="4" class="cth" style="text-align:center">Ageing — On Shelf qty</th>
-      <th class="bth">&gt;30d %</th>
-      <th class="bth">Status</th>
-    </tr>
-    <tr class="rh2">
-      <th colspan="2" style="text-align:left"></th>
-      <th></th><th></th><th></th><th></th>
-      <th class="ok" style="font-size:9px;border-left:3px solid #2563eb">&#8592; &lt;=7d</th>
-      <th class="w1" style="font-size:9px">8-15d</th>
-      <th class="w2" style="font-size:9px">16-30d</th>
-      <th class="cr" style="font-size:9px">&gt;30d&#128308;</th>
-      <th></th><th></th>
-    </tr>
-  </thead>
-<tbody id="fcBody">{fc_rows()}</tbody>
-</table>
-</div>
 
-</div>
 
 <script>
 var DATA={summary_json};
@@ -785,7 +692,7 @@ render();
 </script></body></html>"""
 
 html_clean = html.encode('utf-8','replace').decode('utf-8')
-components.html(html_clean, height=3200, scrolling=True)
+components.html(html_clean, height=2200, scrolling=True)
 
 # ── Native Streamlit dataframe tables with frozen headers ──────────────────────
 AGEING_ORDER = ["<=7 days","8-15 days","16-30 days",">30 days"]
