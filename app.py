@@ -232,13 +232,13 @@ def zone_rows():
         qty  = int(zg["quantity"].sum())
         a0   = int(zg[zg["atp_flag"]==0]["quantity"].sum())
         a1   = int(zg[zg["atp_flag"]==1]["quantity"].sum())
-        aged = int(zg[(zg["atp_flag"]==1)&(zg["Ageing_Bucket"]==">30 days")]["quantity"].sum())
-        fsp  = round(float(zg["product_listing_dim_fsp"].sum()), 2)
+        v1   = int(zg[(zg["atp_flag"]==1)&(zg["Ageing_Bucket"]=="<=7 days")]["quantity"].sum())
+        v2   = int(zg[(zg["atp_flag"]==1)&(zg["Ageing_Bucket"]=="8-15 days")]["quantity"].sum())
+        v3   = int(zg[(zg["atp_flag"]==1)&(zg["Ageing_Bucket"]=="16-30 days")]["quantity"].sum())
+        v4   = int(zg[(zg["atp_flag"]==1)&(zg["Ageing_Bucket"]==">30 days")]["quantity"].sum())
         p    = a1/qty*100 if qty > 0 else 0
-        ap   = aged/qty*100 if qty > 0 else 0
         pc   = "rr" if p >= 30 else ("rw" if p >= 15 else "rg")
-        apc  = "rr" if ap >= 15 else ("rw" if ap >= 8 else "rg")
-        if aged > 0 or p >= 30: st_pill = '<span class="pill r">🔴 Critical</span>'
+        if v4 > 0 or p >= 30: st_pill = '<span class="pill r">🔴 Critical</span>'
         elif p >= 15: st_pill = '<span class="pill y">🟡 Watch</span>'
         else: st_pill = '<span class="pill g">🟢 OK</span>'
         html += f"""<tr>
@@ -247,23 +247,29 @@ def zone_rows():
           <td style="padding:6px 10px" class="rg">{fmt_n(a0)}</td>
           <td style="padding:6px 10px" class="{pc}">{fmt_n(a1)}</td>
           <td style="padding:6px 10px" class="{pc}">{p:.1f}%</td>
-          <td style="padding:6px 10px;background:#fef2f2;color:#991b1b;font-weight:600">{fmt_n(aged)}</td>
-          <td style="padding:6px 10px" class="{apc}">{ap:.1f}%</td>
-          <td style="padding:6px 10px;color:#d97706;font-weight:500">{fmt_f(fsp)}</td>
+          <td style="padding:6px 10px;background:#ecfdf5;color:#065f46">{fmt_n(v1)}</td>
+          <td style="padding:6px 10px;background:#fffbeb;color:#92400e;border-left:3px solid #2563eb">{fmt_n(v1)}</td>
+          <td style="padding:6px 10px;background:#fffbeb;color:#92400e">{fmt_n(v2)}</td>
+          <td style="padding:6px 10px;background:#fff7ed;color:#9a3412">{fmt_n(v3)}</td>
+          <td style="padding:6px 10px;background:#fef2f2;color:#991b1b;font-weight:600">{fmt_n(v4)}</td>
           <td style="padding:6px 10px">{st_pill}</td>
         </tr>"""
     # Pan India total
     p = total_atp1/total_qty*100 if total_qty > 0 else 0
-    ap = total_aged/total_qty*100 if total_qty > 0 else 0
+    tv1 = int(df[(df["atp_flag"]==1)&(df["Ageing_Bucket"]=="<=7 days")]["quantity"].sum())
+    tv2 = int(df[(df["atp_flag"]==1)&(df["Ageing_Bucket"]=="8-15 days")]["quantity"].sum())
+    tv3 = int(df[(df["atp_flag"]==1)&(df["Ageing_Bucket"]=="16-30 days")]["quantity"].sum())
+    tv4 = int(df[(df["atp_flag"]==1)&(df["Ageing_Bucket"]==">30 days")]["quantity"].sum())
     html += f"""<tr class="rt">
       <td style="text-align:left;padding:6px 10px">Pan India Total</td>
       <td style="padding:6px 10px">{fmt_n(total_qty)}</td>
       <td style="padding:6px 10px" class="rg">{fmt_n(total_atp0)}</td>
       <td style="padding:6px 10px" class="rr">{fmt_n(total_atp1)}</td>
       <td style="padding:6px 10px" class="rr">{p:.1f}%</td>
-      <td style="padding:6px 10px;background:#fef2f2;color:#991b1b;font-weight:700">{fmt_n(total_aged)}</td>
-      <td style="padding:6px 10px" class="rr">{ap:.1f}%</td>
-      <td style="padding:6px 10px;color:#d97706;font-weight:600">{fmt_f(total_fsp)}</td>
+      <td style="padding:6px 10px;background:#ecfdf5;color:#065f46;border-left:3px solid #2563eb">{fmt_n(tv1)}</td>
+      <td style="padding:6px 10px;background:#fffbeb;color:#92400e">{fmt_n(tv2)}</td>
+      <td style="padding:6px 10px;background:#fff7ed;color:#9a3412">{fmt_n(tv3)}</td>
+      <td style="padding:6px 10px;background:#fef2f2;color:#991b1b;font-weight:700">{fmt_n(tv4)}</td>
       <td style="padding:6px 10px"><span class="pill r">🔴 Critical</span></td>
     </tr>"""
     return html
@@ -275,13 +281,13 @@ def fc_rows():
         qty   = int(wg["quantity"].sum())
         a0    = int(wg[wg["atp_flag"]==0]["quantity"].sum())
         a1    = int(wg[wg["atp_flag"]==1]["quantity"].sum())
-        aged  = int(wg[(wg["atp_flag"]==1)&(wg["Ageing_Bucket"]==">30 days")]["quantity"].sum())
-        fsp   = round(float(wg["product_listing_dim_fsp"].sum()), 2)
+        v1    = int(wg[(wg["atp_flag"]==1)&(wg["Ageing_Bucket"]=="<=7 days")]["quantity"].sum())
+        v2    = int(wg[(wg["atp_flag"]==1)&(wg["Ageing_Bucket"]=="8-15 days")]["quantity"].sum())
+        v3    = int(wg[(wg["atp_flag"]==1)&(wg["Ageing_Bucket"]=="16-30 days")]["quantity"].sum())
+        v4    = int(wg[(wg["atp_flag"]==1)&(wg["Ageing_Bucket"]==">30 days")]["quantity"].sum())
         p     = a1/qty*100 if qty > 0 else 0
-        ap    = aged/qty*100 if qty > 0 else 0
         pc    = "rr" if p >= 30 else ("rw" if p >= 15 else "rg")
-        apc   = "rr" if ap > 15 else ("rw" if ap > 8 else "rg")
-        if aged > 0 or p >= 30:
+        if v4 > 0 or p >= 30:
             st_pill = '<span class="pill r">🔴 Critical</span>'
         elif p >= 15:
             st_pill = '<span class="pill y">🟡 Watch</span>'
@@ -294,9 +300,10 @@ def fc_rows():
           <td style="padding:6px 10px" class="rg">{fmt_n(a0)}</td>
           <td style="padding:6px 10px" class="{pc}">{fmt_n(a1)}</td>
           <td style="padding:6px 10px" class="{pc}">{p:.1f}%</td>
-          <td style="padding:6px 10px;background:#fef2f2;color:#991b1b;font-weight:600">{fmt_n(aged)}</td>
-          <td style="padding:6px 10px" class="{apc}">{ap:.1f}%</td>
-          <td style="padding:6px 10px;color:#d97706;font-weight:500">{fmt_f(fsp)}</td>
+          <td style="padding:6px 10px;background:#ecfdf5;color:#065f46;border-left:3px solid #2563eb">{fmt_n(v1)}</td>
+          <td style="padding:6px 10px;background:#fffbeb;color:#92400e">{fmt_n(v2)}</td>
+          <td style="padding:6px 10px;background:#fff7ed;color:#9a3412">{fmt_n(v3)}</td>
+          <td style="padding:6px 10px;background:#fef2f2;color:#991b1b;font-weight:600">{fmt_n(v4)}</td>
           <td style="padding:6px 10px">{st_pill}</td>
         </tr>"""
     return html
@@ -426,14 +433,50 @@ tbody td:nth-child(2){{text-align:center;color:#475569}}
     <tr class="rh1">
       <th style="text-align:left;min-width:160px">Warehouse (FC)</th>
       <th style="text-align:left">Zone</th>
-      <th class="tth">Total qty</th>
-      <th class="ath">Booked ATP=0</th>
-      <th class="bth">On shelf ATP=1</th>
-      <th class="bth">On shelf %</th>
-      <th class="bth">Aged &gt;30d 🔴</th>
-      <th class="bth">Aged &gt;30d %</th>
-      <th class="cth">FSP value</th>
+      <th class="tth">Total</th>
+      <th class="ath">Booked<br><span style="font-size:8px;opacity:.8">ATP=0</span></th>
+      <th class="bth">On shelf<br><span style="font-size:8px;opacity:.8">ATP=1</span></th>
+      <th class="bth">On shelf<br><span style="font-size:8px;opacity:.8">%</span></th>
+      <th colspan="4" class="cth" style="text-align:center">Ageing — On Shelf qty</th>
       <th class="bth">Status</th>
+    </tr>
+    <tr class="rh2">
+      <th colspan="2" style="text-align:left"></th>
+      <th></th><th></th><th></th><th></th>
+      <th class="ok" style="font-size:9px;border-left:3px solid #2563eb">&#8592; &lt;=7d</th>
+      <th class="w1" style="font-size:9px">8-15d</th>
+      <th class="w2" style="font-size:9px">16-30d</th>
+      <th class="cr" style="font-size:9px">&gt;30d🔴</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="fcBody">{fc_rows()}</tbody>
+</table>
+</div>
+
+<div class="divider"></div>
+<div class="sec">🏭 FC / Warehouse-wise Summary</div>
+<div class="tw">
+<table>
+  <thead>
+    <tr class="rh1">
+      <th style="text-align:left;min-width:160px">Warehouse (FC)</th>
+      <th style="text-align:left">Zone</th>
+      <th class="tth">Total</th>
+      <th class="ath">Booked<br><span style="font-size:8px;opacity:.8">ATP=0</span></th>
+      <th class="bth">On shelf<br><span style="font-size:8px;opacity:.8">ATP=1</span></th>
+      <th class="bth">On shelf<br><span style="font-size:8px;opacity:.8">%</span></th>
+      <th colspan="4" class="cth" style="text-align:center">Ageing — On Shelf qty</th>
+      <th class="bth">Status</th>
+    </tr>
+    <tr class="rh2">
+      <th colspan="2" style="text-align:left"></th>
+      <th></th><th></th><th></th><th></th>
+      <th class="ok" style="font-size:9px;border-left:3px solid #2563eb">&#8592; &lt;=7d</th>
+      <th class="w1" style="font-size:9px">8-15d</th>
+      <th class="w2" style="font-size:9px">16-30d</th>
+      <th class="cr" style="font-size:9px">&gt;30d🔴</th>
+      <th></th>
     </tr>
   </thead>
   <tbody id="fcBody">{fc_rows()}</tbody>
