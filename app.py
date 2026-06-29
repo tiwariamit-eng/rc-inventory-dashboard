@@ -411,71 +411,72 @@ tbody td:nth-child(2){{text-align:center;color:#475569}}
 </div>
 
 <div class="tw">
-<table>
+<table style="width:100%;border-collapse:collapse;table-layout:fixed">
+  <colgroup>
+    <col style="width:140px">
+    <col style="width:70px">
+    <col style="width:80px">
+    <col style="width:80px">
+    <col style="width:70px">
+    <col style="width:70px">
+    <col style="width:70px">
+    <col style="width:70px">
+    <col style="width:80px">
+    <col style="width:65px">
+    <col style="width:75px">
+  </colgroup>
   <thead>
     <tr class="rh1">
-      <th style="text-align:left">Zone</th>
+      <th  style="text-align:left">Zone</th>
       <th class="tth">Total</th>
       <th class="ath">Booked<br><span style="font-size:8px;opacity:.8">ATP=0</span></th>
       <th class="bth">On shelf<br><span style="font-size:8px;opacity:.8">ATP=1</span></th>
       <th class="bth">On shelf<br><span style="font-size:8px;opacity:.8">%</span></th>
       <th colspan="4" class="cth" style="text-align:center">Ageing — On Shelf qty</th>
+      <th class="bth">&gt;30d %</th>
       <th class="bth">Status</th>
     </tr>
     <tr class="rh2">
-      <th style="text-align:left"></th>
+      <th  style="text-align:left"></th>
       <th></th><th></th><th></th><th></th>
       <th class="ok" style="font-size:9px;border-left:3px solid #2563eb">&#8592; &lt;=7d</th>
       <th class="w1" style="font-size:9px">8-15d</th>
       <th class="w2" style="font-size:9px">16-30d</th>
-      <th class="cr" style="font-size:9px">&gt;30d🔴</th>
-      <th class="cr" style="font-size:9px">&gt;30d %</th>
-      <th></th>
-    </tr>
-  </thead>
- <thead>
-    <tr class="rh1">
-      <th style="text-align:left;min-width:120px">Zone</th>
-      <th class="tth">Total</th>
-      <th class="ath">Booked<br><span style="font-size:8px;opacity:.8">ATP=0</span></th>
-      <th class="bth">On shelf<br><span style="font-size:8px;opacity:.8">ATP=1</span></th>
-      <th class="bth">On shelf<br><span style="font-size:8px;opacity:.8">%</span></th>
-      <th colspan="4" class="cth" style="text-align:center">Ageing — On Shelf qty</th>
-      <th class="bth" style="white-space:nowrap">&gt;30d %</th>
-      <th class="bth">Status</th>
-    </tr>
-    <tr class="rh2">
-      <th style="text-align:left"></th>
-      <th></th><th></th><th></th><th></th>
-      <th class="ok" style="font-size:9px;border-left:3px solid #2563eb">&#8592; &lt;=7d</th>
-      <th class="w1" style="font-size:9px">8-15d</th>
-      <th class="w2" style="font-size:9px">16-30d</th>
-      <th class="cr" style="font-size:9px">&gt;30d🔴</th>
+      <th class="cr" style="font-size:9px">&gt;30d&#128308;</th>
       <th></th><th></th>
     </tr>
   </thead>
-  <tbody id="zoneBody">{zone_rows()}</tbody>
+<tbody id="zoneBody">{zone_rows()}</tbody>
 </table>
 </div>
 
 <div class="divider"></div>
 <div class="sec">📦 Mapped Location Inventory View</div>
 <div class="tw">
-<table style="table-layout:fixed;width:100%">
+<table style="width:100%;border-collapse:collapse;table-layout:fixed">
   <colgroup>
-    <col style="width:55px"><col style="width:140px"><col style="width:80px">
-    <col style="width:80px"><col style="width:80px"><col style="width:70px">
-    <col style="width:68px"><col style="width:68px"><col style="width:68px">
-    <col style="width:72px"><col style="width:72px">
+    <col style="width:55px">
+    <col style="width:145px">
+    <col style="width:70px">
+    <col style="width:80px">
+    <col style="width:80px">
+    <col style="width:70px">
+    <col style="width:70px">
+    <col style="width:70px">
+    <col style="width:70px">
+    <col style="width:80px">
+    <col style="width:65px">
+    <col style="width:75px">
   </colgroup>
   <thead>
     <tr class="rh1">
-      <th colspan="2" style="text-align:left">Mapped Location / Alpha-MP</th>
+      <th colspan="2" style="text-align:left">Mapped location / Alpha-MP</th>
       <th class="tth">Total</th>
       <th class="ath">Booked<br><span style="font-size:8px;opacity:.8">ATP=0</span></th>
       <th class="bth">On shelf<br><span style="font-size:8px;opacity:.8">ATP=1</span></th>
       <th class="bth">On shelf<br><span style="font-size:8px;opacity:.8">%</span></th>
       <th colspan="4" class="cth" style="text-align:center">Ageing — On Shelf qty</th>
+      <th class="bth">&gt;30d %</th>
       <th class="bth">Status</th>
     </tr>
     <tr class="rh2">
@@ -484,33 +485,11 @@ tbody td:nth-child(2){{text-align:center;color:#475569}}
       <th class="ok" style="font-size:9px;border-left:3px solid #2563eb">&#8592; &lt;=7d</th>
       <th class="w1" style="font-size:9px">8-15d</th>
       <th class="w2" style="font-size:9px">16-30d</th>
-      <th class="cr" style="font-size:9px">&gt;30d🔴</th>
-      <th class="cr" style="font-size:9px">&gt;30d %</th>
-      <th></th>
-    </tr>
-  </thead>
- <thead>
-    <tr class="rh1">
-      <th colspan="2" style="text-align:left;min-width:120px">Mapped location / Alpha-MP</th>
-      <th class="tth">Total</th>
-      <th class="ath">Booked<br><span style="font-size:8px;opacity:.8">ATP=0</span></th>
-      <th class="bth">On shelf<br><span style="font-size:8px;opacity:.8">ATP=1</span></th>
-      <th class="bth">On shelf<br><span style="font-size:8px;opacity:.8">%</span></th>
-      <th colspan="4" class="cth" style="text-align:center">Ageing — On Shelf qty</th>
-      <th class="bth" style="white-space:nowrap">&gt;30d %</th>
-      <th class="bth">Status</th>
-    </tr>
-    <tr class="rh2">
-      <th colspan="2" style="text-align:left"></th>
-      <th></th><th></th><th></th><th></th>
-      <th class="ok" style="font-size:9px;border-left:3px solid #2563eb">&#8592; &lt;=7d</th>
-      <th class="w1" style="font-size:9px">8-15d</th>
-      <th class="w2" style="font-size:9px">16-30d</th>
-      <th class="cr" style="font-size:9px">&gt;30d🔴</th>
+      <th class="cr" style="font-size:9px">&gt;30d&#128308;</th>
       <th></th><th></th>
     </tr>
   </thead>
-  <tbody id="mainBody"></tbody>
+<tbody id="mainBody"></tbody>
 </table>
 <div class="note">
   <span class="nl"><span class="dot" style="background:#059669"></span> Booked (ATP=0) = packed, will move — good</span>
@@ -522,17 +501,31 @@ tbody td:nth-child(2){{text-align:center;color:#475569}}
 <div class="divider"></div>
 <div class="sec">🏭 FC / Warehouse-wise Summary</div>
 <div class="tw">
-<table>
+<table style="width:100%;border-collapse:collapse;table-layout:fixed">
+  <colgroup>
+    <col style="width:140px">
+    <col style="width:60px">
+    <col style="width:70px">
+    <col style="width:80px">
+    <col style="width:80px">
+    <col style="width:70px">
+    <col style="width:70px">
+    <col style="width:70px">
+    <col style="width:70px">
+    <col style="width:80px">
+    <col style="width:65px">
+    <col style="width:75px">
+  </colgroup>
   <thead>
     <tr class="rh1">
-      <th style="text-align:left;min-width:140px">Warehouse (FC)</th>
-      <th style="text-align:left;min-width:60px">Zone</th>
+      <th style="text-align:left">Warehouse (FC)</th>
+      <th style="text-align:left">Zone</th>
       <th class="tth">Total</th>
       <th class="ath">Booked<br><span style="font-size:8px;opacity:.8">ATP=0</span></th>
       <th class="bth">On shelf<br><span style="font-size:8px;opacity:.8">ATP=1</span></th>
       <th class="bth">On shelf<br><span style="font-size:8px;opacity:.8">%</span></th>
       <th colspan="4" class="cth" style="text-align:center">Ageing — On Shelf qty</th>
-      <th class="bth" style="white-space:nowrap">&gt;30d %</th>
+      <th class="bth">&gt;30d %</th>
       <th class="bth">Status</th>
     </tr>
     <tr class="rh2">
@@ -541,11 +534,11 @@ tbody td:nth-child(2){{text-align:center;color:#475569}}
       <th class="ok" style="font-size:9px;border-left:3px solid #2563eb">&#8592; &lt;=7d</th>
       <th class="w1" style="font-size:9px">8-15d</th>
       <th class="w2" style="font-size:9px">16-30d</th>
-      <th class="cr" style="font-size:9px">&gt;30d🔴</th>
+      <th class="cr" style="font-size:9px">&gt;30d&#128308;</th>
       <th></th><th></th>
     </tr>
   </thead>
-  <tbody id="fcBody">{fc_rows()}</tbody>
+<tbody id="fcBody">{fc_rows()}</tbody>
 </table>
 </div>
 
