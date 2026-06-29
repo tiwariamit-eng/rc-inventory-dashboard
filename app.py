@@ -235,7 +235,12 @@ def zone_rows():
         aged = int(zg[(zg["atp_flag"]==1)&(zg["Ageing_Bucket"]==">30 days")]["quantity"].sum())
         fsp  = round(float(zg["product_listing_dim_fsp"].sum()), 2)
         p    = a1/qty*100 if qty > 0 else 0
+        ap   = aged/qty*100 if qty > 0 else 0
         pc   = "rr" if p >= 30 else ("rw" if p >= 15 else "rg")
+        apc  = "rr" if ap >= 15 else ("rw" if ap >= 8 else "rg")
+        if aged > 0 or p >= 30: st_pill = '<span class="pill r">🔴 Critical</span>'
+        elif p >= 15: st_pill = '<span class="pill y">🟡 Watch</span>'
+        else: st_pill = '<span class="pill g">🟢 OK</span>'
         html += f"""<tr>
           <td style="text-align:left;font-weight:500;padding:6px 10px">{zone}</td>
           <td style="padding:6px 10px">{fmt_n(qty)}</td>
@@ -243,10 +248,13 @@ def zone_rows():
           <td style="padding:6px 10px" class="{pc}">{fmt_n(a1)}</td>
           <td style="padding:6px 10px" class="{pc}">{p:.1f}%</td>
           <td style="padding:6px 10px;background:#fef2f2;color:#991b1b;font-weight:600">{fmt_n(aged)}</td>
+          <td style="padding:6px 10px" class="{apc}">{ap:.1f}%</td>
           <td style="padding:6px 10px;color:#d97706;font-weight:500">{fmt_f(fsp)}</td>
+          <td style="padding:6px 10px">{st_pill}</td>
         </tr>"""
     # Pan India total
     p = total_atp1/total_qty*100 if total_qty > 0 else 0
+    ap = total_aged/total_qty*100 if total_qty > 0 else 0
     html += f"""<tr class="rt">
       <td style="text-align:left;padding:6px 10px">Pan India Total</td>
       <td style="padding:6px 10px">{fmt_n(total_qty)}</td>
@@ -254,7 +262,9 @@ def zone_rows():
       <td style="padding:6px 10px" class="rr">{fmt_n(total_atp1)}</td>
       <td style="padding:6px 10px" class="rr">{p:.1f}%</td>
       <td style="padding:6px 10px;background:#fef2f2;color:#991b1b;font-weight:700">{fmt_n(total_aged)}</td>
+      <td style="padding:6px 10px" class="rr">{ap:.1f}%</td>
       <td style="padding:6px 10px;color:#d97706;font-weight:600">{fmt_f(total_fsp)}</td>
+      <td style="padding:6px 10px"><span class="pill r">🔴 Critical</span></td>
     </tr>"""
     return html
 
