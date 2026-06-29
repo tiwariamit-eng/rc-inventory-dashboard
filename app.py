@@ -410,7 +410,7 @@ tbody td:nth-child(2){{text-align:center;color:#475569}}
   <div class="kc o"><div class="kl">💰 Total FSP value</div><div class="kv a" id="ovFS">{fmt_f(total_fsp)}</div><div class="ksb">overall inventory value</div></div>
 </div>
 
-<div class="tw">
+<div class="tw"><div class="tw-scroll">
 <table style="width:100%;border-collapse:collapse;table-layout:fixed">
   <colgroup>
     <col style="width:140px">
@@ -452,7 +452,7 @@ tbody td:nth-child(2){{text-align:center;color:#475569}}
 
 <div class="divider"></div>
 <div class="sec">📦 Mapped Location Inventory View</div>
-<div class="tw">
+<div class="tw"><div class="tw-scroll">
 <table style="width:100%;border-collapse:collapse;table-layout:fixed">
   <colgroup>
     <col style="width:55px">
@@ -491,6 +491,7 @@ tbody td:nth-child(2){{text-align:center;color:#475569}}
   </thead>
 <tbody id="mainBody"></tbody>
 </table>
+</div>
 <div class="note">
   <span class="nl"><span class="dot" style="background:#059669"></span> Booked (ATP=0) = packed, will move — good</span>
   <span class="nl"><span class="dot" style="background:#dc2626"></span> On shelf (ATP=1) = idle, needs action — bad</span>
@@ -500,7 +501,7 @@ tbody td:nth-child(2){{text-align:center;color:#475569}}
 </div>
 <div class="divider"></div>
 <div class="sec">🏭 FC / Warehouse-wise Summary</div>
-<div class="tw">
+<div class="tw"><div class="tw-scroll">
 <table style="width:100%;border-collapse:collapse;table-layout:fixed">
   <colgroup>
     <col style="width:140px">
