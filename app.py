@@ -340,15 +340,17 @@ body{{background:#f4f6f9;color:#1a1a2e;font-size:13px}}
 .kv{{font-size:22px;font-weight:700;margin:5px 0 2px}}
 .kv.r{{color:#dc2626}}.kv.g{{color:#059669}}.kv.a{{color:#d97706}}.kv.b{{color:#2563eb}}
 .ksb{{font-size:10px;color:#94a3b8}}
-.tw{{background:#fff;border-radius:10px;border:1px solid #e2e8f0;overflow:hidden;margin-bottom:14px}}
+.tw{{background:#fff;border-radius:10px;border:1px solid #e2e8f0;margin-bottom:14px}}
+.tw-scroll{{overflow-y:auto;max-height:380px;border-radius:10px}}
+.tw-scroll table{{border-collapse:separate;border-spacing:0}}
 table{{width:100%;border-collapse:collapse;font-size:11.5px}}
-.rh1 th{{background:#0f2557;color:#fff;font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;padding:9px 10px;text-align:center;border-right:1px solid rgba(255,255,255,.1);white-space:nowrap}}
+.rh1 th{{background:#0f2557;color:#fff;font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;padding:9px 10px;text-align:center;border-right:1px solid rgba(255,255,255,.1);white-space:nowrap;position:-webkit-sticky;position:sticky;top:0;z-index:30}}
 .rh1 th:first-child,.rh1 th:nth-child(2){{text-align:left}}
 .rh1 th.tth{{background:#1e3a7c;color:#bfdbfe}}
 .rh1 th.ath{{background:#064e3b;color:#6ee7b7}}
 .rh1 th.bth{{background:#7f1d1d;color:#fecaca}}
 .rh1 th.cth{{background:#7c2d12;color:#fed7aa}}
-.rh2 th{{background:#f1f5f9;color:#475569;font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;padding:6px 10px;border-bottom:2px solid #e2e8f0;border-right:1px solid #e8edf2;text-align:center;white-space:nowrap}}
+.rh2 th{{background:#f1f5f9;color:#475569;font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;padding:6px 10px;border-bottom:2px solid #e2e8f0;border-right:1px solid #e8edf2;text-align:center;white-space:nowrap;position:-webkit-sticky;position:sticky;top:37px;z-index:30}}
 .rh2 th.ok{{background:#ecfdf5;color:#065f46}}
 .rh2 th.w1{{background:#fffbeb;color:#92400e}}
 .rh2 th.w2{{background:#fff7ed;color:#9a3412}}
@@ -544,71 +546,6 @@ tbody td:nth-child(2){{text-align:center;color:#475569}}
 </div>
 
 <script>
-// ── Sticky header via JS clone ─────────────────────────────────────────────
-function initStickyHeader(tbodyId) {{
-  var tbody = document.getElementById(tbodyId);
-  if (!tbody) return;
-  var table = tbody.closest('table');
-  var scrollDiv = table.closest('.tw-scroll');
-  if (!scrollDiv) return;
-  
-  // Clone the thead rows
-  var thead = table.querySelector('thead');
-  if (!thead) return;
-  
-  // Create sticky container
-  var sticky = document.createElement('div');
-  sticky.style.cssText = 'position:sticky;top:0;z-index:50;background:#fff;display:none;width:100%';
-  sticky.id = 'sticky_' + tbodyId;
-  
-  // Clone table with just thead
-  var stickyTable = document.createElement('table');
-  stickyTable.style.cssText = table.style.cssText + ';margin:0;width:100%';
-  stickyTable.innerHTML = '<thead>' + thead.innerHTML + '</thead>';
-  sticky.appendChild(stickyTable);
-  
-  // Insert sticky before scrollDiv
-  scrollDiv.parentNode.insertBefore(sticky, scrollDiv);
-  
-  // Match column widths
-  function syncWidths() {{
-    var origCols = table.querySelectorAll('col');
-    var newCols = stickyTable.querySelectorAll('colgroup');
-    if (origCols.length > 0) {{
-      var cg = table.querySelector('colgroup');
-      if (cg) stickyTable.insertAdjacentHTML('afterbegin', cg.outerHTML);
-    }}
-    var origThs = thead.querySelectorAll('tr:first-child th');
-    var newThs = stickyTable.querySelectorAll('tr:first-child th');
-    origThs.forEach(function(th, i) {{
-      if (newThs[i]) newThs[i].style.width = th.offsetWidth + 'px';
-    }});
-    stickyTable.style.width = table.offsetWidth + 'px';
-  }}
-  
-  // Show/hide based on scroll position
-  scrollDiv.addEventListener('scroll', function() {{
-    var scrollTop = scrollDiv.scrollTop;
-    var theadHeight = thead.offsetHeight;
-    if (scrollTop > theadHeight) {{
-      if (sticky.style.display === 'none') {{
-        syncWidths();
-        sticky.style.display = 'block';
-      }}
-    }} else {{
-      sticky.style.display = 'none';
-    }}
-  }});
-}}
-
-window.addEventListener('load', function() {{
-  setTimeout(function() {{
-    initStickyHeader('mainBody');
-    initStickyHeader('fcBody');
-    initStickyHeader('zoneBody');
-  }}, 500);
-}});
-
 var DATA={summary_json};
 
 function fN(v){{if(v>=1e7)return(v/1e7).toFixed(2)+'Cr';if(v>=1e5)return(v/1e5).toFixed(2)+'L';if(v>=1e3)return(v/1e3).toFixed(1)+'K';return Math.round(v)+'';}}
@@ -848,4 +785,4 @@ render();
 </script></body></html>"""
 
 html_clean = html.encode('utf-8','replace').decode('utf-8')
-components.html(html_clean, height=5500, scrolling=True)
+components.html(html_clean, height=3600, scrolling=False)
